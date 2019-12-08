@@ -2,19 +2,18 @@ package com.xbl.noodlecodedemo;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.ContentValues;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.xbl.noodlecodedemo.db.UserDBHelper;
+import com.xbl.noodlecodedemo.model.User;
 
-import java.time.Instant;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,7 +21,8 @@ public class MainActivity extends AppCompatActivity {
     private EditText inputAge;
     private Button insertButton;
     private Button queryButton;
-    private SQLiteOpenHelper helper;
+    private UserDBHelper helper;
+    private User user;
 
 
     @Override
@@ -32,35 +32,23 @@ public class MainActivity extends AppCompatActivity {
 
         helper = new UserDBHelper(this);
 
-
         inputName = (EditText) findViewById(R.id.input_name);
         inputAge = (EditText) findViewById(R.id.input_age);
         insertButton = (Button) findViewById(R.id.insert_button);
         queryButton = (Button) findViewById(R.id.query_button);
 
-        insertButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final SQLiteDatabase db  = helper.getWritableDatabase();
-                final ContentValues values = new ContentValues();
-                values.put("name", inputName.getText().toString());
-                values.put("age", inputAge.getText().toString());
-
-                new Handler().post(new Runnable() {
-                    public void run() {
-                        db.insert(UserDBHelper.TABLE_NAME, null, values);
-                    }
-                });
-
-            }
+        insertButton.setOnClickListener((view) -> {
+            user = new User();
+            user.setName(inputName.getText().toString());
+            user.setAge(Integer.valueOf(inputAge.getText().toString()));
+            helper.inserUser(user, (object) -> {
+                Toast.makeText(this, "插入成功！", Toast.LENGTH_SHORT).show();
+            });
         });
 
-        queryButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, UserListActivity.class);
-                startActivity(intent);
-            }
+        queryButton.setOnClickListener((view) -> {
+            Intent intent = new Intent(MainActivity.this, UserListActivity.class);
+            startActivity(intent);
         });
 
     }

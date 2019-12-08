@@ -7,12 +7,14 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.xbl.noodlecodedemo.model.User;
+
 import java.util.List;
 import java.util.Map;
 
 public class UserListAdapter extends BaseAdapter {
 
-    private List<Map<String, Object>> users;
+    private List<User> users;
     private TextView nameTextView;
     private TextView ageTextView;
 
@@ -21,7 +23,7 @@ public class UserListAdapter extends BaseAdapter {
      */
     private LayoutInflater layoutInflater;
 
-    public UserListAdapter(Context context, List<Map<String, Object>> users) {
+    public UserListAdapter(Context context, List<User> users) {
         layoutInflater = LayoutInflater.from(context);
         this.users = users;
     }
@@ -38,18 +40,18 @@ public class UserListAdapter extends BaseAdapter {
 
     @Override
     public long getItemId(int position) {
-        return Long.valueOf((String) users.get(position).get("user_id"));
+        return Long.valueOf(users.get(position).getUserId());
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = layoutInflater.inflate(R.layout.list_item, null);
         nameTextView = view.findViewById(R.id.item_name);
-        Map<String, Object> item = (Map)getItem(position);
-        nameTextView.setText(item.get("name").toString());
+        User item = (User)getItem(position);
+        nameTextView.setText(item.getName());
 
         ageTextView = view.findViewById(R.id.item_age);
-        ageTextView.setText(item.get("age").toString());
+        ageTextView.setText(String.valueOf(item.getAge()));
         return view;
     }
 }
