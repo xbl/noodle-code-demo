@@ -5,18 +5,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.TextView;
 
+import androidx.databinding.DataBindingUtil;
+
+import com.xbl.noodlecodedemo.databinding.ListItemBinding;
 import com.xbl.noodlecodedemo.model.User;
 
 import java.util.List;
-import java.util.Map;
 
 public class UserListAdapter extends BaseAdapter {
 
     private List<User> users;
-    private TextView nameTextView;
-    private TextView ageTextView;
 
     /**
      * 用来布局
@@ -45,13 +44,9 @@ public class UserListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View view = layoutInflater.inflate(R.layout.list_item, null);
-        nameTextView = view.findViewById(R.id.item_name);
-        User item = (User)getItem(position);
-        nameTextView.setText(item.getName());
-
-        ageTextView = view.findViewById(R.id.item_age);
-        ageTextView.setText(String.valueOf(item.getAge()));
-        return view;
+        ListItemBinding binding = DataBindingUtil.inflate(layoutInflater, R.layout.list_item, parent, false);
+        User user = (User)getItem(position);
+        binding.setUser(user);
+        return binding.getRoot();
     }
 }
