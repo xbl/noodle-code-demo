@@ -2,6 +2,7 @@ package com.xbl.noodlecodedemo.vm;
 
 import android.app.Application;
 import android.content.Intent;
+import android.os.Handler;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -25,8 +26,13 @@ public class UserVM extends AndroidViewModel {
     }
 
     public void onInsert() {
-        helper.inserUser(user, (object) -> {
-            Toast.makeText(application.getApplicationContext(), "插入成功！", Toast.LENGTH_SHORT).show();
+        new Handler().post(() -> {
+            if (helper.existByName(user.getName())) {
+                Toast.makeText(application, "用户名已经存在！", Toast.LENGTH_SHORT).show();
+                return ;
+            }
+            helper.inserUser(user);
+            Toast.makeText(application, "插入成功！", Toast.LENGTH_SHORT).show();
         });
     }
 

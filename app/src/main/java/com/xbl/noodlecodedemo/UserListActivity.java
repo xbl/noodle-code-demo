@@ -3,14 +3,13 @@ package com.xbl.noodlecodedemo;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.widget.ListView;
 
 import com.xbl.noodlecodedemo.db.UserDBHelper;
 import com.xbl.noodlecodedemo.model.User;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class UserListActivity extends AppCompatActivity {
 
@@ -26,8 +25,9 @@ public class UserListActivity extends AppCompatActivity {
 
         helper = new UserDBHelper(this);
 
-        helper.queryUsers((list) -> {
-            listView.setAdapter(new UserListAdapter(UserListActivity.this, (List<User>) list));
+        new Handler().post(() -> {
+            List<User> users = helper.queryUsers();
+            listView.setAdapter(new UserListAdapter(UserListActivity.this, users));
         });
     }
 
