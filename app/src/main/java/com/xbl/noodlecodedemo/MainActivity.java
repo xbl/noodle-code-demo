@@ -4,12 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.os.Handler;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.xbl.noodlecodedemo.db.UserDBHelper;
 
@@ -39,11 +41,19 @@ public class MainActivity extends AppCompatActivity {
         insertButton.setOnClickListener((v) -> {
             final SQLiteDatabase db  = helper.getWritableDatabase();
             final ContentValues values = new ContentValues();
-            values.put("name", inputName.getText().toString());
+            String name = inputName.getText().toString();
+            values.put("name", name);
             values.put("age", inputAge.getText().toString());
 
             new Handler().post(() -> {
+                String sql = "SELECT user_id FROM " + UserDBHelper.TABLE_NAME + " WHERE name = ?";
+                Cursor cursor = db.rawQuery( sql, new String[] { name });
+                if (cursor.moveToNext()) {
+                    Toast.makeText(MainActivity.this, "用户名已经存在！", Toast.LENGTH_SHORT).show();
+                    return ;
+                }
                 db.insert(UserDBHelper.TABLE_NAME, null, values);
+                Toast.makeText(MainActivity.this, "插入成功！", Toast.LENGTH_SHORT).show();
             });
         });
 
