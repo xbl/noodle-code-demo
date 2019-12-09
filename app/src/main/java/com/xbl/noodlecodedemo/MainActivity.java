@@ -40,12 +40,12 @@ public class MainActivity extends AppCompatActivity {
             user.setAge(Integer.valueOf(inputAge.getText().toString()));
 
             new Handler().post(() -> {
-                String tipText = "插入成功！";
                 if (helper.existByName(user.getName())) {
-                    tipText = "用户名已经存在！";
+                    Toast.makeText(this, "用户名已经存在！", Toast.LENGTH_SHORT).show();
+                    return ;
                 }
                 helper.inserUser(user);
-                Toast.makeText(this, tipText, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "插入成功！", Toast.LENGTH_SHORT).show();
             });
         });
 
