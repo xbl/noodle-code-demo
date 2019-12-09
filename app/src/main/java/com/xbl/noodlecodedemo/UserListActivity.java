@@ -46,10 +46,10 @@ public class UserListActivity extends AppCompatActivity {
                     );
             while (cursor.moveToNext()) {
                 Map<String, Object> map = new HashMap<>();
-                map.put("id", cursor.getLong(cursor.getColumnIndex("user_id")));
+                map.put("user_id", cursor.getInt(cursor.getColumnIndex("user_id")));
                 String name = cursor.getString(cursor.getColumnIndex("name"));
                 map.put("name", name);
-                map.put("age", cursor.getLong(cursor.getColumnIndex("age")));
+                map.put("age", cursor.getInt(cursor.getColumnIndex("age")));
                 users.add(map);
             }
 

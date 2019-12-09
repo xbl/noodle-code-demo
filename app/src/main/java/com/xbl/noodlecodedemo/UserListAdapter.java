@@ -38,7 +38,7 @@ public class UserListAdapter extends BaseAdapter {
 
     @Override
     public long getItemId(int position) {
-        return Long.valueOf((String) users.get(position).get("user_id"));
+        return Long.valueOf((int) users.get(position).get("user_id"));
     }
 
     @Override
