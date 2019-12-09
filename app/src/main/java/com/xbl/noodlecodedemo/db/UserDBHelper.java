@@ -19,13 +19,13 @@ public class UserDBHelper extends SQLiteOpenHelper {
     public final static String TABLE_NAME = "users";
 
     public UserDBHelper(@Nullable Context context) {
-        super(context, "database-name", null, 1);
+        super(context, "database-name", null, 2);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
         String createTable = "CREATE TABLE " + TABLE_NAME +" ( " +
-                "user_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "user_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
                 "name TEXT NOT NULL, " +
                 "age INTEGER NOT NULL);";
         db.execSQL(createTable);

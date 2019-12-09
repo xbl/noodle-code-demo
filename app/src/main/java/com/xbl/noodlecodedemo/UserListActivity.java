@@ -23,17 +23,11 @@ public class UserListActivity extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.list);
 
         userService = new UserService(this);
-
         userService.queryUsers((users) -> {
-            listView.setAdapter(new UserListAdapter(UserListActivity.this, (List<User>)users));
+            AppExecutors appExecutors = new AppExecutors();
+            appExecutors.mainThread().execute(() -> {
+                listView.setAdapter(new UserListAdapter(UserListActivity.this, (List<User>) users));
+            });
         });
-    }
-
-    @Override
-    protected void onDestroy() {
-        if (userService != null) {
-            userService.onDestroy();
-        }
-        super.onDestroy();
     }
 }

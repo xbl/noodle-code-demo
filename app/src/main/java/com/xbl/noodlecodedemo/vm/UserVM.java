@@ -25,10 +25,12 @@ public class UserVM extends AndroidViewModel {
     }
 
     public void onInsert() {
+        Toast toast = Toast.makeText(application, "", Toast.LENGTH_SHORT);
         userService.insertUser(user, (object) -> {
             Boolean isSuccess = (Boolean) object;
             String tipsText = isSuccess ? "插入成功！": "用户名已经存在！";
-            Toast.makeText(application, tipsText, Toast.LENGTH_SHORT).show();
+            toast.setText(tipsText);
+            toast.show();
         });
     }
 
@@ -36,11 +38,5 @@ public class UserVM extends AndroidViewModel {
         Intent intent = new Intent(application, UserListActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         application.startActivity(intent);
-    }
-
-    public void onDestroy() {
-        if (userService != null) {
-            userService.onDestroy();
-        }
     }
 }

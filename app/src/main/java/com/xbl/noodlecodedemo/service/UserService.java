@@ -1,43 +1,41 @@
 package com.xbl.noodlecodedemo.service;
 
 import android.content.Context;
-import android.os.Handler;
 
-import com.xbl.noodlecodedemo.db.UserDBHelper;
+import com.xbl.noodlecodedemo.AppExecutors;
+import com.xbl.noodlecodedemo.BasicApplication;
+import com.xbl.noodlecodedemo.db.UserDao;
 import com.xbl.noodlecodedemo.model.User;
 
 
 public class UserService {
 
     private Context context;
-    private UserDBHelper helper;
+    private UserDao userDao;
 
     public UserService(Context context) {
         this.context = context;
-        helper = new UserDBHelper(context);
+        BasicApplication app = (BasicApplication) context.getApplicationContext();
+        userDao = app.getAppDatabase().userDao();
     }
 
     public void insertUser(User user, Callback callback) {
-        new Handler().post(() -> {
-            if (helper.existByName(user.getName())) {
+        AppExecutors executors = new AppExecutors();
+        executors.diskIO().execute(() -> {
+            if (userDao.existByName(user.getName()) > 0) {
                 callback.run(false);
                 return;
             }
-            helper.inserUser(user);
+            userDao.insertUser(user);
             callback.run(true);
         });
     }
 
     public void queryUsers(Callback callback) {
-        new Handler().post(() -> {
-            callback.run(helper.queryUsers());
+        AppExecutors executors = new AppExecutors();
+        executors.diskIO().execute(() -> {
+            callback.run(userDao.queryUsers());
         });
-    }
-
-    public void onDestroy() {
-        if (helper != null) {
-            helper.close();
-        }
     }
 
     public interface Callback {
