@@ -32,15 +32,14 @@ public class MainActivity extends AppCompatActivity {
 
         helper = new UserDBHelper(this);
 
-
         inputName = (EditText) findViewById(R.id.input_name);
         inputAge = (EditText) findViewById(R.id.input_age);
         insertButton = (Button) findViewById(R.id.insert_button);
         queryButton = (Button) findViewById(R.id.query_button);
 
         insertButton.setOnClickListener((v) -> {
-            final SQLiteDatabase db  = helper.getWritableDatabase();
-            final ContentValues values = new ContentValues();
+            SQLiteDatabase db  = helper.getWritableDatabase();
+            ContentValues values = new ContentValues();
             String name = inputName.getText().toString();
             values.put("name", name);
             values.put("age", inputAge.getText().toString());
@@ -49,11 +48,11 @@ public class MainActivity extends AppCompatActivity {
                 String sql = "SELECT user_id FROM " + UserDBHelper.TABLE_NAME + " WHERE name = ?";
                 Cursor cursor = db.rawQuery( sql, new String[] { name });
                 if (cursor.moveToNext()) {
-                    Toast.makeText(MainActivity.this, "用户名已经存在！", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "用户名已经存在！", Toast.LENGTH_SHORT).show();
                     return ;
                 }
                 db.insert(UserDBHelper.TABLE_NAME, null, values);
-                Toast.makeText(MainActivity.this, "插入成功！", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "插入成功！", Toast.LENGTH_SHORT).show();
             });
         });
 
