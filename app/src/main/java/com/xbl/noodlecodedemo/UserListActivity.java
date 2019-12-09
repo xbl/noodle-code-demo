@@ -3,18 +3,17 @@ package com.xbl.noodlecodedemo;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.widget.ListView;
 
-import com.xbl.noodlecodedemo.db.UserDBHelper;
 import com.xbl.noodlecodedemo.model.User;
+import com.xbl.noodlecodedemo.service.UserService;
 
 import java.util.List;
 
 public class UserListActivity extends AppCompatActivity {
 
-    private UserDBHelper helper;
     private ListView listView;
+    private UserService userService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,18 +22,17 @@ public class UserListActivity extends AppCompatActivity {
 
         listView = (ListView) findViewById(R.id.list);
 
-        helper = new UserDBHelper(this);
+        userService = new UserService(this);
 
-        new Handler().post(() -> {
-            List<User> users = helper.queryUsers();
-            listView.setAdapter(new UserListAdapter(UserListActivity.this, users));
+        userService.queryUsers((users) -> {
+            listView.setAdapter(new UserListAdapter(UserListActivity.this, (List<User>)users));
         });
     }
 
     @Override
     protected void onDestroy() {
-        if (helper != null) {
-            helper.close();
+        if (userService != null) {
+            userService.onDestroy();
         }
         super.onDestroy();
     }

@@ -79,8 +79,4 @@ public class UserDBHelper extends SQLiteOpenHelper {
         cursor.close();
         return users;
     }
-
-    public interface Callback {
-        public void run(Object object);
-    }
 }
