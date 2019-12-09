@@ -1,7 +1,17 @@
 package com.xbl.noodlecodedemo.model;
 
+import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity(tableName = "users")
 public class User {
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "user_id")
     private int userId;
+
+    @NonNull
     private String name;
     private int age;
 
