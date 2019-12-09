@@ -4,16 +4,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
+import android.os.Handler;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.xbl.noodlecodedemo.db.UserDBHelper;
 import com.xbl.noodlecodedemo.model.User;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -41,8 +38,14 @@ public class MainActivity extends AppCompatActivity {
             user = new User();
             user.setName(inputName.getText().toString());
             user.setAge(Integer.valueOf(inputAge.getText().toString()));
-            helper.inserUser(user, (object) -> {
-                Toast.makeText(this, "插入成功！", Toast.LENGTH_SHORT).show();
+
+            new Handler().post(() -> {
+                String tipText = "插入成功！";
+                if (helper.existByName(user.getName())) {
+                    tipText = "用户名已经存在！";
+                }
+                helper.inserUser(user);
+                Toast.makeText(this, tipText, Toast.LENGTH_SHORT).show();
             });
         });
 

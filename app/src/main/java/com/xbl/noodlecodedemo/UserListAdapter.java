@@ -10,7 +10,6 @@ import android.widget.TextView;
 import com.xbl.noodlecodedemo.model.User;
 
 import java.util.List;
-import java.util.Map;
 
 public class UserListAdapter extends BaseAdapter {
 
