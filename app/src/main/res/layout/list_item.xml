@@ -3,8 +3,8 @@
 
     <data>
         <variable
-            name="user"
-            type="com.xbl.noodlecodedemo.model.User" />
+            name="userVm"
+            type="com.xbl.noodlecodedemo.vm.UserVM" />
     </data>
 
     <LinearLayout
@@ -16,12 +16,12 @@
             android:id="@+id/item_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@{ user.name }"/>
+            android:text="@{ userVm.user.name }"/>
 
         <TextView
             android:id="@+id/item_age"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@{ user.age + `` }"/>
+            android:text="@{ userVm.user.age + `` }"/>
     </LinearLayout>
 </layout>
