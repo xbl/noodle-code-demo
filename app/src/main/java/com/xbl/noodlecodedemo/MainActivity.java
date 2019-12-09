@@ -8,13 +8,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
 import com.xbl.noodlecodedemo.db.UserDBHelper;
 
-import java.time.Instant;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -38,29 +36,20 @@ public class MainActivity extends AppCompatActivity {
         insertButton = (Button) findViewById(R.id.insert_button);
         queryButton = (Button) findViewById(R.id.query_button);
 
-        insertButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final SQLiteDatabase db  = helper.getWritableDatabase();
-                final ContentValues values = new ContentValues();
-                values.put("name", inputName.getText().toString());
-                values.put("age", inputAge.getText().toString());
+        insertButton.setOnClickListener((v) -> {
+            final SQLiteDatabase db  = helper.getWritableDatabase();
+            final ContentValues values = new ContentValues();
+            values.put("name", inputName.getText().toString());
+            values.put("age", inputAge.getText().toString());
 
-                new Handler().post(new Runnable() {
-                    public void run() {
-                        db.insert(UserDBHelper.TABLE_NAME, null, values);
-                    }
-                });
-
-            }
+            new Handler().post(() -> {
+                db.insert(UserDBHelper.TABLE_NAME, null, values);
+            });
         });
 
-        queryButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, UserListActivity.class);
-                startActivity(intent);
-            }
+        queryButton.setOnClickListener((v) -> {
+            Intent intent = new Intent(MainActivity.this, UserListActivity.class);
+            startActivity(intent);
         });
 
     }

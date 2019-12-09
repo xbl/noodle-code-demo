@@ -35,28 +35,26 @@ public class UserListActivity extends AppCompatActivity {
         helper = new UserDBHelper(this);
 
         final SQLiteDatabase db = helper.getReadableDatabase();
-        new Handler().post(new Runnable() {
-            public void run() {
-                Cursor cursor = db.query(UserDBHelper.TABLE_NAME,
-                        new String[] {
-                                "user_id",
-                                "name",
-                                "age"
-                        },
-                        null, null, null, null, null
-                        );
-                while (cursor.moveToNext()) {
-                    Map<String, Object> map = new HashMap<>();
-                    map.put("id", cursor.getLong(cursor.getColumnIndex("user_id")));
-                    String name = cursor.getString(cursor.getColumnIndex("name"));
-                    map.put("name", name);
-                    map.put("age", cursor.getLong(cursor.getColumnIndex("age")));
-                    users.add(map);
-                }
-
-                cursor.close();
-                listView.setAdapter(new UserListAdapter(UserListActivity.this, users));
+        new Handler().post(() -> {
+            Cursor cursor = db.query(UserDBHelper.TABLE_NAME,
+                    new String[] {
+                            "user_id",
+                            "name",
+                            "age"
+                    },
+                    null, null, null, null, null
+                    );
+            while (cursor.moveToNext()) {
+                Map<String, Object> map = new HashMap<>();
+                map.put("id", cursor.getLong(cursor.getColumnIndex("user_id")));
+                String name = cursor.getString(cursor.getColumnIndex("name"));
+                map.put("name", name);
+                map.put("age", cursor.getLong(cursor.getColumnIndex("age")));
+                users.add(map);
             }
+
+            cursor.close();
+            listView.setAdapter(new UserListAdapter(UserListActivity.this, users));
         });
     }
 
