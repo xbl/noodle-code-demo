@@ -34,8 +34,8 @@ public class UserListActivity extends AppCompatActivity {
         users = new ArrayList<>();
         helper = new UserDBHelper(this);
 
-        final SQLiteDatabase db = helper.getReadableDatabase();
         new Handler().post(() -> {
+            SQLiteDatabase db = helper.getReadableDatabase();
             Cursor cursor = db.query(UserDBHelper.TABLE_NAME,
                     new String[] {
                             "user_id",
