@@ -19,7 +19,6 @@ import java.util.Map;
 public class UserListActivity extends AppCompatActivity {
 
     private SQLiteOpenHelper helper;
-    private List<Map<String, Object>> users;
 
     private ListView listView;
 
@@ -31,10 +30,10 @@ public class UserListActivity extends AppCompatActivity {
 
         listView = (ListView) findViewById(R.id.list);
 
-        users = new ArrayList<>();
         helper = new UserDBHelper(this);
 
         new Handler().post(() -> {
+            List<Map<String, Object>> users = new ArrayList<>();
             SQLiteDatabase db = helper.getReadableDatabase();
             Cursor cursor = db.query(UserDBHelper.TABLE_NAME,
                     new String[] {
