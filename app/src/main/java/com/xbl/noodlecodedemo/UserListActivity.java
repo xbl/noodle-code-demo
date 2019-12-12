@@ -18,7 +18,7 @@ import java.util.Map;
 
 public class UserListActivity extends AppCompatActivity {
 
-    private SQLiteOpenHelper helper;
+    private UserDBHelper helper;
 
     private ListView listView;
 
