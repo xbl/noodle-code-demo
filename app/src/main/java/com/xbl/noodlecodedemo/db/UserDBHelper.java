@@ -17,7 +17,7 @@ public class UserDBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String createTable = "CREATE TABLE " + TABLE_NAME +" ( " +
-                "user_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "user_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
                 "name TEXT NOT NULL, " +
                 "age INTEGER NOT NULL);";
         db.execSQL(createTable);
