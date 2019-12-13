@@ -19,7 +19,7 @@ public class UserDBHelper extends SQLiteOpenHelper {
     public final static String TABLE_NAME = "users";
 
     public UserDBHelper(@Nullable Context context) {
-        super(context, "database-name", null, 2);
+        super(context, "database-name", null, 1);
     }
 
     @Override

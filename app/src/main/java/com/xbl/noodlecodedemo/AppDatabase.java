@@ -11,7 +11,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 import com.xbl.noodlecodedemo.db.UserDao;
 import com.xbl.noodlecodedemo.model.User;
 
-@Database(entities = {User.class}, version = 2)
+@Database(entities = {User.class}, version = 1)
 public abstract class AppDatabase extends RoomDatabase {
     public abstract UserDao userDao();
 
