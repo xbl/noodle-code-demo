@@ -4,19 +4,17 @@ import android.content.Context;
 
 import com.xbl.noodlecodedemo.AppExecutors;
 import com.xbl.noodlecodedemo.BasicApplication;
+import com.xbl.noodlecodedemo.db.DaoFactory;
 import com.xbl.noodlecodedemo.db.UserDao;
 import com.xbl.noodlecodedemo.model.User;
 
 
 public class UserService {
 
-    private Context context;
     private UserDao userDao;
 
-    public UserService(Context context) {
-        this.context = context;
-        BasicApplication app = (BasicApplication) context.getApplicationContext();
-        userDao = app.getAppDatabase().userDao();
+    public UserService() throws Exception {
+        userDao = DaoFactory.getUserDao();
     }
 
     public void insertUser(User user, Callback callback) {

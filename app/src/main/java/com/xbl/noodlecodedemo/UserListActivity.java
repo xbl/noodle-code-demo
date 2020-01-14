@@ -22,7 +22,11 @@ public class UserListActivity extends AppCompatActivity {
 
         listView = (ListView) findViewById(R.id.list);
 
-        userService = new UserService(this);
+        try {
+            userService = new UserService();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         userService.queryUsers((users) -> {
             AppExecutors appExecutors = new AppExecutors();
             appExecutors.mainThread().execute(() -> {

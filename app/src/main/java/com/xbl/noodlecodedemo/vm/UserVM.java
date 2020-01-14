@@ -20,7 +20,11 @@ public class UserVM extends AndroidViewModel {
     public UserVM(@NonNull Application application) {
         super(application);
         this.application = application;
-        userService = new UserService(application);
+        try {
+            userService = new UserService();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         user = new User();
     }
 
