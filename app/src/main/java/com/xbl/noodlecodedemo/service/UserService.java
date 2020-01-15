@@ -8,6 +8,8 @@ import com.xbl.noodlecodedemo.db.DaoFactory;
 import com.xbl.noodlecodedemo.db.UserDao;
 import com.xbl.noodlecodedemo.model.User;
 
+import java.util.List;
+
 
 public class UserService {
 
@@ -17,23 +19,16 @@ public class UserService {
         userDao = DaoFactory.getUserDao();
     }
 
-    public void insertUser(User user, Callback callback) {
-        AppExecutors executors = new AppExecutors();
-        executors.diskIO().execute(() -> {
-            if (userDao.existByName(user.getName()) > 0) {
-                callback.run(false);
-                return;
-            }
-            userDao.insertUser(user);
-            callback.run(true);
-        });
+    public boolean insertUser(User user) {
+        if (userDao.existByName(user.getName()) > 0) {
+            return false;
+        }
+        userDao.insertUser(user);
+        return true;
     }
 
-    public void queryUsers(Callback callback) {
-        AppExecutors executors = new AppExecutors();
-        executors.diskIO().execute(() -> {
-            callback.run(userDao.queryUsers());
-        });
+    public List<User> queryUsers() {
+        return userDao.queryUsers();
     }
 
     public interface Callback {

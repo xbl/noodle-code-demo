@@ -27,9 +27,11 @@ public class UserListActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        userService.queryUsers((users) -> {
-            AppExecutors appExecutors = new AppExecutors();
+        AppExecutors appExecutors = new AppExecutors();
+        appExecutors.diskIO().execute(() -> {
+            List<User> users = userService.queryUsers();
             appExecutors.mainThread().execute(() -> {
+
                 listView.setAdapter(new UserListAdapter(UserListActivity.this, (List<User>) users));
             });
         });

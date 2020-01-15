@@ -7,6 +7,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
+import com.xbl.noodlecodedemo.AppExecutors;
 import com.xbl.noodlecodedemo.UserListActivity;
 import com.xbl.noodlecodedemo.model.User;
 import com.xbl.noodlecodedemo.service.UserService;
@@ -30,9 +31,10 @@ public class UserVM extends AndroidViewModel {
 
     public void onInsert() {
         Toast toast = Toast.makeText(application, "", Toast.LENGTH_SHORT);
-        userService.insertUser(user, (object) -> {
-            Boolean isSuccess = (Boolean) object;
-            String tipsText = isSuccess ? "插入成功！": "用户名已经存在！";
+        AppExecutors appExecutors = new AppExecutors();
+        appExecutors.diskIO().execute(() -> {
+            Boolean isSuccess = userService.insertUser(user);
+            String tipsText = isSuccess ? "插入成功！" : "用户名已经存在！";
             toast.setText(tipsText);
             toast.show();
         });
